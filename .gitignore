@@ -4,6 +4,13 @@
 # Log file
 *.log
 
+# IntelliJ Files
+/.idea/
+
+# Build Configuration Files
+/.gradle/
+/build/
+
 # BlueJ files
 *.ctxt
 
