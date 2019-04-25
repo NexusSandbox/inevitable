@@ -1,7 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 plugins {
     kotlin("jvm") version "1.3.30"
 }
@@ -11,9 +10,9 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    jcenter()
     maven("https://jitpack.io")
 }
-
 
 val kotlinVersion = "1.3.30"
 val junitPlatformVersion = "1.4.1"
@@ -23,15 +22,38 @@ dependencies {
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
     implementation("com.google.guava:guava:27.1-jre")
+    implementation("com.pinterest:ktlint:0.32.0")
 
     testImplementation(kotlin("test", kotlinVersion))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.platform:junit-platform-runner:$junitPlatformVersion")
-    testImplementation("com.github.moove-it:fakeit:v0.7")
+    testImplementation("com.github.moove-it:fakeit:v0.7") {
+        exclude(
+            module = "appcompat-v7"
+               )
+    }
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntime("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
     testRuntime("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+}
+
+configurations.create("ktlint")
+
+tasks.withType<JavaExec> {
+    group = "verification"
+    description = "Check Kotlin code style"
+    classpath = configurations.getByName("ktlint")
+    main = "com.pinterest.ktlint.Main"
+    args = listOf("src/**/*.kt")
+}
+
+tasks.withType<JavaExec> {
+    group = "formatting"
+    description = "Fix Kotlin code style deviations"
+    classpath = configurations.getByName("ktlint")
+    main = "com.pinterest.ktlint.Main"
+    args = listOf("-F", "src/**/*.kt")
 }
 
 tasks.withType<Delete> {
