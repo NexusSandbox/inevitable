@@ -1,4 +1,4 @@
-package eli.quarut.enumerations
+package eli.inevitable.enumerations
 
 enum class Align(private val padder: Function2<String, Int, String>) {
     /**

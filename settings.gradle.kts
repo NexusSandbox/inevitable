@@ -1,1 +1,1 @@
-rootProject.name = "quarut"
+rootProject.name = "inevitable"
