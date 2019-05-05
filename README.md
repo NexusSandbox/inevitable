@@ -1,2 +1,5 @@
-# Inevitable
-Constructor of block and table text.
+# Overview
+
+Library for constructing structured text.
+Current functionality:
+* Pending...
