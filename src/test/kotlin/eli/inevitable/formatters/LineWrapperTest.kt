@@ -1,4 +1,4 @@
-package eli.inevitable
+package eli.inevitable.formatters
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

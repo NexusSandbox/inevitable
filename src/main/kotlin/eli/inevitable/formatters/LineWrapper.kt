@@ -1,6 +1,6 @@
-package eli.inevitable
+package eli.inevitable.formatters
 
-import com.google.common.flogger.FluentLogger
+import org.apache.logging.log4j.LogManager
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -8,15 +8,15 @@ import kotlin.text.RegexOption.DOT_MATCHES_ALL
  *
  * @see <a href="https://xxyxyz.org/line-breaking/">Line Breaking Algorithms</a>
  */
-class LineWrapper(private val line: String, private val margin: Int) {
+class LineWrapper internal constructor(private val line: String, private val margin: Int) {
 
     private val fracturePoints = fracturePointPattern.findAll(line).toList()
 
     fun fracture(): List<String> {
 
-        logger.atInfo().log("Fracture Points: ${fracturePoints.size}")
+        logger.info("Fracture Points: ${fracturePoints.size}")
         fracturePoints.forEach {
-            logger.atInfo().log("Fracture -> [Range: ${it.range}; Value: \"${it.value}\"")
+            logger.info("Fracture -> [Range: ${it.range}; Value: \"${it.value}\"")
         }
 
         // Join words together for each line, then create list of lines
@@ -24,7 +24,7 @@ class LineWrapper(private val line: String, private val margin: Int) {
     }
 
     companion object {
-        private val logger = FluentLogger.forEnclosingClass()
+        private val logger = LogManager.getLogger(LineWrapper::class.java.name)
         private val fracturePointPattern = Regex("""(^\s*|\s+)""", DOT_MATCHES_ALL)
     }
 }

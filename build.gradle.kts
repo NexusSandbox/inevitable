@@ -1,15 +1,18 @@
-import org.gradle.api.JavaVersion.VERSION_12
+import org.gradle.api.JavaVersion.VERSION_1_9
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
+val kotlinVersion =
+    plugins.getPlugin(KotlinPluginWrapper::class.java)
+        .kotlinPluginVersion
 val junitPlatformVersion = "1.4.1"
 val junitJupiterVersion = "5.4.1"
 val floggerVersion = "0.4"
+val log4jVersion = "2.11.2"
 
 plugins {
-    kotlin("jvm") version "1.3.30"
+    kotlin("jvm") version "1.3.31"
     `java-library`
 }
 
@@ -23,20 +26,21 @@ repositories {
 }
 
 dependencies {
+
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
     implementation("com.google.guava:guava:27.1-jre")
     implementation("com.pinterest:ktlint:0.32.0")
-    implementation("com.google.flogger:flogger:$floggerVersion")
-    implementation("com.google.flogger:flogger-system-backend:$floggerVersion")
+    // implementation("com.google.flogger:flogger:$floggerVersion")  -- Can' t use until log4j2 is supported
+    // implementation("com.google.flogger:flogger-system-backend:$floggerVersion")  -- Can 't use until log4j2 is supported
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
 
     testImplementation(kotlin("test", kotlinVersion))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testImplementation("org.junit.platform:junit-platform-runner:$junitPlatformVersion")
-    testImplementation("com.github.moove-it:fakeit:v0.7") {
-        exclude(module = "appcompat-v7")
-    }
+    testImplementation("com.thedeanda:lorem:2.1")
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntime("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
@@ -44,8 +48,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = VERSION_12
-    targetCompatibility = VERSION_12
+    sourceCompatibility = VERSION_1_9
+    targetCompatibility = VERSION_1_9
 }
 
 configurations.create("ktlint")
@@ -56,11 +60,11 @@ tasks {
         description = "Check Kotlin code style"
         classpath = configurations.getByName("ktlint")
         main = "com.pinterest.ktlint.Main"
-        args = listOf("src/**/*.kt")
+        args = listOf("src/**/*.kt", "src/**/*.java")
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "12"
+        kotlinOptions.jvmTarget = "9"
     }
 
     withType<JavaExec> {

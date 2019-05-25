@@ -1,36 +1,35 @@
 package eli.inevitable.enumerations
 
-enum class Align(private val padder: Function2<String, Int, String>) {
+enum class Align(private val padder: Function3<String, Int, Char, String>) {
     /**
      * Text originates from the LEFT;
      *
      * No whitespace padding is applied.
      */
-    NONE({ line: String, margin: Int -> line }),
+    NONE({ line: String, margin: Int, token: Char -> line }),
     /**
      * Text originates from the LEFT;
      *
      * Any additional whitespace will be appended to the right of the right-most character until the line length is equal to the margin.
      */
-    LEFT({ line: String, margin: Int -> line.padEnd(margin) }),
+    LEFT({ line: String, margin: Int, token: Char -> line.padEnd(margin, token) }),
     /**
      * Text originates from the CENTER;
      *
      * Any additional whitespace will be prepended/appended alternately to the left/right of the left-most/right-most characters respectively until the line length is equal to the margin.
      */
-    CENTER({ line: String, margin: Int ->
-               line.substring(
-                   0, line.length / 2
-                             ).padStart(margin / 2) + line.substring(
-                   line.length / 2, line.length
-                                                                    ).padEnd(margin / 2) + if((line.length - margin) % 2 == 1) " " else ""
+    CENTER({ line: String, margin: Int, token: Char ->
+               val lineLengthMiddle = line.length / 2
+               val marginLengthMiddle = margin / 2
+               val adjuster = (margin % 2)
+               line.substring(0, lineLengthMiddle).padStart(marginLengthMiddle, token) + line.substring(lineLengthMiddle, line.length).padEnd(marginLengthMiddle + adjuster, token)
            }),
     /**
      * Text originates from the RIGHT;
      *
      * Any additional whitespace will be prepended to the left of the left-most character until the line length is equal to the margin.
      */
-    RIGHT({ line: String, margin: Int -> line.padStart(margin) }),
+    RIGHT({ line: String, margin: Int, token: Char -> line.padStart(margin, token) }),
     /**
      * Text originates from the LEFT;
      *
@@ -38,7 +37,7 @@ enum class Align(private val padder: Function2<String, Int, String>) {
      *
      * If the original line length is less than 61.8% of the margin or contains less than 2 words, then the padding will function as [Align.LEFT]
      */
-    JUSTIFY_LEFT({ line: String, margin: Int -> line.padEnd(margin) }),
+    JUSTIFY_LEFT({ line: String, margin: Int, token: Char -> line.padEnd(margin, token) }),
     /**
      * Text originates from the RIGHT;
      *
@@ -46,7 +45,7 @@ enum class Align(private val padder: Function2<String, Int, String>) {
      *
      * If the original line length is less than 61.8% of the margin or contains less than 2 words, then the padding will function as [Align.RIGHT]
      */
-    JUSTIFY_RIGHT({ line: String, margin: Int -> line.padStart(margin) });
+    JUSTIFY_RIGHT({ line: String, margin: Int, token: Char -> line.padStart(margin, token) });
 
     /**
      * Fills in whitespace to expand the line of text to fill the defined margin.
@@ -58,10 +57,10 @@ enum class Align(private val padder: Function2<String, Int, String>) {
      * @param margin The total number of characters to expend the line to.
      * @return The original or an expanded [line of characters][String] of length at least equal to the margin.
      */
-    fun pad(line: String, margin: Int): String {
+    fun paddify(line: String, margin: Int, fillerToken: Char = ' '): String {
         if(line.length >= margin) return line
 
-        return padder.invoke(line, margin)
+        return padder.invoke(line, margin, fillerToken)
     }
 
     /**
@@ -74,7 +73,7 @@ enum class Align(private val padder: Function2<String, Int, String>) {
      * @param margin The total number of characters to expend the line to.
      * @return A [List] of [original or expanded lines of characters][String] of length at least equal to the margin.
      */
-    fun pad(lines: List<String>, margin: Int): List<String> {
-        return lines.map { pad(it, margin) }
+    fun paddify(lines: List<String>, margin: Int, fillerToken: Char = ' '): List<String> {
+        return lines.map { paddify(it, margin, fillerToken) }
     }
 }
