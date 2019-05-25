@@ -46,9 +46,9 @@ Then, these values can be used in the following ways:
 
 ```kotlin
 textCell(line1, line2, line3) {
-    withAlignment(CENTER)
-    withPadding(1, 1)
-    withPaddingSpacer('*')
+    alignment(CENTER)
+    padding(1, 1)
+    paddingSpacer('*')
 }.println()
 ```
 
@@ -56,9 +56,9 @@ textCell(line1, line2, line3) {
 
 ```kotlin
 textCell(listOf(line1, line2, line3)) {
-    withAlignment(CENTER)
-    withPadding(1, 1)
-    withPaddingSpacer('*')
+    alignment(CENTER)
+    padding(1, 1)
+    paddingSpacer('*')
 }.println()
 ```
 
@@ -66,10 +66,10 @@ textCell(listOf(line1, line2, line3)) {
 
 ```kotlin
 textCell {
-    withLines(line1, line2, line3)
-    withAlignment(CENTER)
-    withPadding(1, 1)
-    withPaddingSpacer('*')
+    lines(line1, line2, line3)
+    alignment(CENTER)
+    padding(1, 1)
+    paddingSpacer('*')
 }.println()
 ```
 
@@ -77,12 +77,12 @@ textCell {
 
 ```kotlin
 textCell {
-    addLines(line1)
-    addLines(line2)
-    addLines(line3)
-    withAlignment(CENTER)
-    withPadding(1, 1)
-    withPaddingSpacer('*')
+    lines(line1)
+    lines(line2)
+    lines(line3)
+    alignment(CENTER)
+    padding(1, 1)
+    paddingSpacer('*')
 }.println()
 ```
 
@@ -110,7 +110,7 @@ Then, these values can be used in the following ways:
 
 ```kotlin
 textRow(cell1, cell2, cell3) {
-    withVerticalDivider(':')
+    verticalDivider(':')
 }.println()
 ```
 
@@ -118,7 +118,7 @@ textRow(cell1, cell2, cell3) {
 
 ```kotlin
 textRow(listOf(cell1, cell2, cell3)) {
-    withVerticalDivider(':')
+    verticalDivider(':')
 }.println()
 ```
 
@@ -126,8 +126,8 @@ textRow(listOf(cell1, cell2, cell3)) {
 
 ```kotlin
 textRow {
-    withCells(cell1, cell2, cell3)
-    withVerticalDivider(':')
+    cells(cell1, cell2, cell3)
+    verticalDivider(':')
 }.println()
 ```
 
@@ -135,10 +135,10 @@ textRow {
 
 ```kotlin
 textRow {
-    addCells(cell1)
-    addCells(cell2)
-    addCells(cell3)
-    withVerticalDivider(':')
+    cells(cell1)
+    cells(cell2)
+    cells(cell3)
+    verticalDivider(':')
 }.println()
 ```
 
@@ -183,8 +183,8 @@ Then, these values can be used in the following ways:
 
 ```kotlin
 textTable(row1, row2, row3) {
-    withHeader(header)
-    withHeaderDivider(divider)
+    header(header)
+    headerDivider(divider)
 }.println()
 ```
 
@@ -192,8 +192,8 @@ textTable(row1, row2, row3) {
 
 ```kotlin
 textTable(listOf(row1, row2, row3)) {
-    withHeader(header)
-    withHeaderDivider(divider)
+    header(header)
+    headerDivider(divider)
 }.println()
 ```
 
@@ -201,9 +201,9 @@ textTable(listOf(row1, row2, row3)) {
 
 ```kotlin
 textTable {
-    withBody(row1, row2, row3)
-    withHeader(header)
-    withHeaderDivider(divider)
+    body(row1, row2, row3)
+    header(header)
+    headerDivider(divider)
 }.println()
 ```
 
@@ -211,11 +211,11 @@ textTable {
 
 ```kotlin
 textTable {
-    addBody(row1)
-    addBody(row2)
-    addBody(row3)
-    withHeader(header)
-    withHeaderDivider(divider)
+    body(row1)
+    body(row2)
+    body(row3)
+    header(header)
+    headerDivider(divider)
 }.println()
 ```
 

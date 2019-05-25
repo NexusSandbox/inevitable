@@ -1,5 +1,6 @@
 package eli.inevitable
 
+import eli.inevitable.formatters.CellFormatter
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -56,30 +57,30 @@ fun maxOf(vararg things: Int): Int? {
     return things.maxBy { it }
 }
 
-// /**
-//  * Constructs a block of formatted text. This block may optionally be
-//  * padded with an arbitrary number of empty rows or columns of text.
-//  * @param contents An array of [lines of text][String] contained within the cell.
-//  * @param init An optional initialization lambda used to configure the formatting for the cell.
-//  * @return A finalized [CellFormatter]
-//  */
-// fun textCell(vararg contents: String,
-//              init: (CellFormatter.Builder.() -> CellFormatter.Builder)? = null): CellFormatter {
-//     return textCell(contents.toList(), init)
-// }
-//
-// /**
-//  * Constructs a block of formatted text. This block may optionally be
-//  * padded with an arbitrary number of empty rows or columns of text.
-//  * @param contents A [list][List] of [lines of text][String] contained within the cell.
-//  * @param init An optional initialization lambda used to configure the formatting for the cell.
-//  * @return A finalized [CellFormatter]
-//  */
-// fun textCell(contents: List<String>,
-//              init: (CellFormatter.Builder.() -> CellFormatter.Builder)? = null): CellFormatter {
-//     val builder = CellFormatter.Builder(contents)
-//     return if(init == null) builder.finish() else builder.init().finish()
-// }
+/**
+ * Constructs a block of formatted text. This block may optionally be
+ * padded with an arbitrary number of empty rows or columns of text.
+ * @param contents An array of [lines of text][String] contained within the cell.
+ * @param init An optional initialization lambda used to configure the formatting for the cell.
+ * @return A finalized [CellFormatter]
+ */
+fun textCell(vararg contents: String,
+             init: (CellFormatter.Builder.() -> CellFormatter.Builder)? = null): CellFormatter {
+    return textCell(contents.toList(), init)
+}
+
+/**
+ * Constructs a block of formatted text. This block may optionally be
+ * padded with an arbitrary number of empty rows or columns of text.
+ * @param contents A [list][List] of [lines of text][String] contained within the cell.
+ * @param init An optional initialization lambda used to configure the formatting for the cell.
+ * @return A finalized [CellFormatter]
+ */
+fun textCell(contents: List<String>,
+             init: (CellFormatter.Builder.() -> CellFormatter.Builder)? = null): CellFormatter {
+    val builder = CellFormatter.Builder(contents)
+    return if(init == null) builder.finish() else builder.init().finish()
+}
 
 // /**
 //  * Constructs a row of blocks of formatted text.

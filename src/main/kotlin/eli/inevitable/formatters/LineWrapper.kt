@@ -10,7 +10,9 @@ import kotlin.text.RegexOption.DOT_MATCHES_ALL
  */
 class LineWrapper internal constructor(private val line: String, private val margin: Int) {
 
-    private val fracturePoints = fracturePointPattern.findAll(line).toList()
+    private val fracturePoints =
+        fracturePointPattern.findAll(line)
+            .toList()
 
     fun fracture(): List<String> {
 
@@ -38,8 +40,8 @@ class LineWrapper internal constructor(private val line: String, private val mar
  * @param tabSpaces The number of non-breaking whitespace characters used to replace any tab characters. Default: 4
  * @return A non-null but possibly empty [List] of [strings][String].
  */
-fun String.wrapLines(margin: Int, tabSpaces: Int = 4): List<String> = listOf(this).wrapLines(margin,
-                                                                                             tabSpaces)
+fun String.wrapLines(margin: Int, tabSpaces: Int = 4): List<String> =
+    listOf(this).wrapLines(margin, tabSpaces)
 
 /**
  * Fractures each line of text into multiple lines of text with a length no longer than the specified margin.
@@ -51,5 +53,6 @@ fun String.wrapLines(margin: Int, tabSpaces: Int = 4): List<String> = listOf(thi
  * @return A non-null but possibly empty [List] of [strings][String].
  */
 fun List<String>.wrapLines(margin: Int, tabSpaces: Int = 4): List<String> = this.map {
-    it.replace("\t", " ".repeat(tabSpaces)).split(Regex("\r?\n", DOT_MATCHES_ALL))
+    it.replace("\t", " ".repeat(tabSpaces))
+        .split(Regex("\r?\n", DOT_MATCHES_ALL))
 }.flatten().flatMap { LineWrapper(it, margin).fracture() }
