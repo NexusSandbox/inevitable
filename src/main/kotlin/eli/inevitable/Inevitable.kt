@@ -1,6 +1,7 @@
 package eli.inevitable
 
 import eli.inevitable.formatters.CellFormatter
+import eli.inevitable.formatters.DivFormatter
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -105,17 +106,17 @@ fun textCell(contents: List<String>,
 //     return if(init == null) builder.finish() else builder.init().finish()
 // }
 
-// /**
-//  * Constructs a divider of formatted text.
-//  * @param columnCount The total number of columns
-//  * @param init An optional initialization lambda used to configure the formatting for the divider.
-//  * @return A finalized [DivFormatter]
-//  */
-// fun textDivider(columnCount: Int,
-//                 init: (DivFormatter.Builder.() -> DivFormatter.Builder)? = null): DivFormatter {
-//     val builder = DivFormatter.Builder(columnCount)
-//     return if(init == null) builder.finish() else builder.init().finish()
-// }
+/**
+ * Constructs a divider of formatted text.
+ * @param columnCount The total number of columns
+ * @param init An optional initialization lambda used to configure the formatting for the divider.
+ * @return A finalized [DivFormatter]
+ */
+fun textDivider(columnCount: Int,
+                init: (DivFormatter.Builder.() -> DivFormatter.Builder)? = null): DivFormatter {
+    val builder = DivFormatter.Builder(columnCount)
+    return if(init == null) builder.finish() else builder.init().finish()
+}
 
 // /**
 //  * Constructs a table of rows of formatted text.
