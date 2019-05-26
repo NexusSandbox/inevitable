@@ -2,6 +2,7 @@ package eli.inevitable
 
 import eli.inevitable.formatters.CellFormatter
 import eli.inevitable.formatters.DivFormatter
+import eli.inevitable.formatters.RowFormatter
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -83,28 +84,28 @@ fun textCell(contents: List<String>,
     return if(init == null) builder.finish() else builder.init().finish()
 }
 
-// /**
-//  * Constructs a row of blocks of formatted text.
-//  * @param contents An array of [cells][CellFormatter] contained within the row.
-//  * @param init An optional initialization lambda used to configure the formatting for the row.
-//  * @return A finalized [RowFormatter]
-//  */
-// fun textRow(vararg contents: CellFormatter,
-//             init: (RowFormatter.Builder.() -> RowFormatter.Builder)? = null): RowFormatter {
-//     return textRow(contents.toList(), init)
-// }
-//
-// /**
-//  * Constructs a row of blocks of formatted text.
-//  * @param contents A [list][List] of [cells][CellFormatter] contained within the row.
-//  * @param init An optional initialization lambda used to configure the formatting for the row.
-//  * @return A finalized [RowFormatter]
-//  */
-// fun textRow(contents: List<CellFormatter>,
-//             init: (RowFormatter.Builder.() -> RowFormatter.Builder)? = null): RowFormatter {
-//     val builder = RowFormatter.Builder(contents)
-//     return if(init == null) builder.finish() else builder.init().finish()
-// }
+/**
+ * Constructs a row of blocks of formatted text.
+ * @param contents An array of [cells][CellFormatter] contained within the row.
+ * @param init An optional initialization lambda used to configure the formatting for the row.
+ * @return A finalized [RowFormatter]
+ */
+fun textRow(vararg contents: CellFormatter,
+            init: (RowFormatter.Builder.() -> RowFormatter.Builder)? = null): RowFormatter {
+    return textRow(contents.toList(), init)
+}
+
+/**
+ * Constructs a row of blocks of formatted text.
+ * @param contents A [list][List] of [cells][CellFormatter] contained within the row.
+ * @param init An optional initialization lambda used to configure the formatting for the row.
+ * @return A finalized [RowFormatter]
+ */
+fun textRow(contents: List<CellFormatter>,
+            init: (RowFormatter.Builder.() -> RowFormatter.Builder)? = null): RowFormatter {
+    val builder = RowFormatter.Builder(contents)
+    return if(init == null) builder.finish() else builder.init().finish()
+}
 
 /**
  * Constructs a divider of formatted text.

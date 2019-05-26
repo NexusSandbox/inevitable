@@ -145,7 +145,7 @@ class CellFormatter private constructor(): TextFormatter {
          * @param lineCount The positive total number of lines for the cell. If not set, will size to best fit the contents of the cell. Cannot be set to a value smaller than the contents of the cell including padding.
          * @return This [Builder]
          */
-        fun maxHeight(lineCount: Int): Builder {
+        fun height(lineCount: Int): Builder {
             checkFinalizedStatus()
             buildable.run {
                 height = maxOf(lineCount, rawLines.size + 2 * verticalPaddingCount)

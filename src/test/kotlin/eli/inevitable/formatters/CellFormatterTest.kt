@@ -51,7 +51,7 @@ class CellFormatterTest {
         val contentHeight = 5
         val content = listOf<String>(faker.getWords(1), faker.getWords(1), faker.getWords(1))
         val formatter = textCell(content) {
-            maxHeight(contentHeight)
+            height(contentHeight)
         }
         val lines = formatter.getLines()
         assertEquals(contentHeight, lines.size, """Unexpected number of lines:
