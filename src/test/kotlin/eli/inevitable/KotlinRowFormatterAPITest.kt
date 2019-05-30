@@ -8,11 +8,12 @@ import org.junit.jupiter.api.TestInstance
 class KotlinRowFormatterAPITest {
     private val faker: LoremIpsum = LoremIpsum.getInstance()
 
+    private val cell1 = textCell(faker.getWords(5), faker.getWords(2))
+    private val cell2 = textCell(faker.getWords(2))
+    private val cell3 = textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1))
+
     @Test
     fun `Example vararg builder output`() {
-        val cell1 = textCell(faker.getWords(5), faker.getWords(2))
-        val cell2 = textCell(faker.getWords(2))
-        val cell3 = textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1))
         textRow(cell1, cell2, cell3) {
             verticalDivider(':')
         }.println()
@@ -20,9 +21,6 @@ class KotlinRowFormatterAPITest {
 
     @Test
     fun `Example list builder output`() {
-        val cell1 = textCell(faker.getWords(5), faker.getWords(2))
-        val cell2 = textCell(faker.getWords(2))
-        val cell3 = textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1))
         textRow(listOf(cell1, cell2, cell3)) {
             verticalDivider(':')
         }.println()
@@ -30,9 +28,6 @@ class KotlinRowFormatterAPITest {
 
     @Test
     fun `Example empty builder output`() {
-        val cell1 = textCell(faker.getWords(5), faker.getWords(2))
-        val cell2 = textCell(faker.getWords(2))
-        val cell3 = textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1))
         textRow {
             cells(cell1, cell2, cell3)
             verticalDivider(':')
@@ -42,9 +37,9 @@ class KotlinRowFormatterAPITest {
     @Test
     fun `Example empty appending builder output`() {
         textRow {
-            cells(textCell(faker.getWords(5), faker.getWords(2)))
-            cells(textCell(faker.getWords(2)))
-            cells(textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1)))
+            cells(cell1)
+            cells(cell2)
+            cells(cell3)
             verticalDivider(':')
         }.println()
     }

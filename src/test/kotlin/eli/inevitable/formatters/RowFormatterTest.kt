@@ -17,8 +17,7 @@ class RowFormatterTest {
     fun `An empty row is not valid`() {
         val actualException =
             assertThrows<IllegalArgumentException>("Expected exception not thrown.") {
-                RowFormatter.Builder()
-                    .finish()
+                textRow()
             }
         assertEquals("Unable to generate a row with no columns.", actualException.message, "Unexpected exception message.")
     }

@@ -1,9 +1,11 @@
 package eli.inevitable
 
+import eli.inevitable.formatters.BlockFormatter
 import eli.inevitable.formatters.CellFormatter
 import eli.inevitable.formatters.DivFormatter
 import eli.inevitable.formatters.RowFormatter
 import eli.inevitable.formatters.TableFormatter
+import eli.inevitable.formatters.TextFormatter
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -154,25 +156,25 @@ fun textTable(rows: List<RowFormatter>,
     return if(init == null) builder.finish() else builder.init().finish()
 }
 
-// /**
-//  * Constructs a bordered block of formatted text.
-//  * @param contents An array of [formatters][TextFormatter] contained within the block.
-//  * @param init An optional initialization lambda used to configure the formatting for the block.
-//  * @return A finalized [BlockFormatter]
-//  */
-// fun textBlock(vararg contents: TextFormatter,
-//               init: (BlockFormatter.Builder.() -> BlockFormatter.Builder)?): BlockFormatter {
-//     return textBlock(contents.toList(), init)
-// }
-//
-// /**
-//  * Constructs a bordered block of formatted text.
-//  * @param contents A [list][List] of [formatters][TextFormatter] contained within the block.
-//  * @param init An optional initialization lambda used to configure the formatting for the block.
-//  * @return A finalized [BlockFormatter]
-//  */
-// fun textBlock(contents: List<TextFormatter>,
-//               init: (BlockFormatter.Builder.() -> BlockFormatter.Builder)?): BlockFormatter {
-//     val builder = BlockFormatter.Builder(contents)
-//     return if(init == null) builder.finish() else builder.init().finish()
-// }
+/**
+ * Constructs a bordered block of formatted text.
+ * @param contents An array of [formatters][TextFormatter] contained within the block.
+ * @param init An optional initialization lambda used to configure the formatting for the block.
+ * @return A finalized [BlockFormatter]
+ */
+fun textBlock(vararg contents: TextFormatter,
+              init: (BlockFormatter.Builder.() -> BlockFormatter.Builder)? = null): BlockFormatter {
+    return textBlock(contents.toList(), init)
+}
+
+/**
+ * Constructs a bordered block of formatted text.
+ * @param contents A [list][List] of [formatters][TextFormatter] contained within the block.
+ * @param init An optional initialization lambda used to configure the formatting for the block.
+ * @return A finalized [BlockFormatter]
+ */
+fun textBlock(contents: List<TextFormatter>,
+              init: (BlockFormatter.Builder.() -> BlockFormatter.Builder)? = null): BlockFormatter {
+    val builder = BlockFormatter.Builder(contents)
+    return if(init == null) builder.finish() else builder.init().finish()
+}

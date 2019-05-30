@@ -101,9 +101,12 @@ textCell {
 
 Let the pre-constructed cell values be:
 ```kotlin
-val cell1 = textCell(faker.getWords(5), faker.getWords(2))
+val cell1 = textCell(faker.getWords(5),
+                     faker.getWords(2))
 val cell2 = textCell(faker.getWords(2))
-val cell3 = textCell(faker.getWords(3), faker.getWords(2), faker.getWords(1))
+val cell3 = textCell(faker.getWords(3),
+                     faker.getWords(2),
+                     faker.getWords(1))
 ```
 
 Then, these values can be used in the following ways:
@@ -236,7 +239,66 @@ autem                                     |                   |
 
 ### Blocked Text
 
+Let the pre-constructed row values be:
+```kotlin
+val title = textCell(faker.getTitle(2)) {
+    alignment(Align.CENTER)
+}
+val caption = textCell(faker.getWords(3))
+val tableContent =
+    textTable(textRow(textCell(faker.getWords(1)),
+                      textCell(faker.getWords(1)),
+                      textCell(faker.getWords(1))),
+              textRow(textCell(faker.getWords(1)),
+                      textCell(faker.getWords(1)),
+                      textCell(faker.getWords(1)))) {
+        header(textRow(textCell(faker.getWords(1)),
+                       textCell(faker.getWords(1)),
+                       textCell(faker.getWords(1))))
+        headerDivider('|', '=')
+    }
+```
+
 #### Kotlin API
+
+```kotlin
+textBlock(tableContent) {
+    title(title)
+    caption(caption)
+}.println()
+```
+
+*OR*
+
+```kotlin
+textBlock(listOf(tableContent)) {
+    title(title)
+    caption(caption)
+}.println()
+```
+
+*OR*
+
+```kotlin
+textBlock {
+    contents(tableContent)
+    title(title)
+    caption(caption)
+}.println()
+```
+
+#### Sample Output
+
+```
+        Omittam Theophrastus         
+*************************************
+*fugit   |ceteros    |docendi       *
+*========|===========|==============*
+*quot    |scelerisque|arcu          *
+*facilisi|esse       |necessitatibus*
+*************************************
+dicam ultrices reformidans           
+```
 
 ## Issues
 
