@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "eli.inevitable"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0-alpha-1"
 
 repositories {
     mavenCentral()
