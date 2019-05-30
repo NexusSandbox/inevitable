@@ -82,7 +82,7 @@ class RowFormatter private constructor(): TextFormatter {
         }
 
         /**
-         * @param widths The array of character widths for each column. This will append to any prior widths already specified. (Must match the total number of columns)
+         * @param widths The array of character widths for each column. This will reset any prior widths already specified. (Must match the total number of columns)
          * @return This [Builder]
          */
         fun columnWidths(vararg widths: Int): Builder {
@@ -90,12 +90,15 @@ class RowFormatter private constructor(): TextFormatter {
         }
 
         /**
-         * @param widths The [list of character widths][List] for each column. This will append to any prior widths already specified. (Must match the total number of columns)
+         * @param widths The [list of character widths][List] for each column. This will reset any prior widths already specified. (Must match the total number of columns)
          * @return This [Builder]
          */
         fun columnWidths(widths: List<Int>): Builder {
             checkFinalizedStatus()
-            buildable.columnWidths.addAll(widths)
+            buildable.run {
+                columnWidths.clear()
+                columnWidths.addAll(widths)
+            }
 
             return this
         }

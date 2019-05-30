@@ -21,9 +21,7 @@ class DivFormatterTest {
     @Test
     fun `A divider can be populated with a single column`() {
         val columnWidth = 5
-        val divider = textDivider(1) {
-            columnWidths(5)
-        }
+        val divider = textDivider(columnWidth)
         assertEquals(1, divider.getTotalColumns(), """Unexpected number of columns:
             |   content=${divider.getLines()}
         """.trimMargin())
@@ -37,9 +35,7 @@ class DivFormatterTest {
         val columnWidth1 = 1
         val columnWidth2 = 2
         val columnWidth3 = 3
-        val divider = textDivider(3) {
-            columnWidths(columnWidth1, columnWidth2, columnWidth3)
-        }
+        val divider = textDivider(columnWidth1, columnWidth2, columnWidth3)
         assertEquals(3, divider.getTotalColumns(), """Unexpected number of columns:
             |   content=${divider.getLines()}
         """.trimMargin())

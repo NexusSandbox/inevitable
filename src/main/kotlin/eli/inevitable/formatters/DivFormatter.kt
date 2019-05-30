@@ -22,8 +22,10 @@ class DivFormatter private constructor(): TextFormatter {
 
         constructor(): super(DivFormatter())
 
-        constructor(columnCount: Int): this() {
-            columnWidths(List(columnCount) { 1 })
+        constructor(vararg columnWidths: Int): this(columnWidths.toList())
+
+        constructor(columnWidths: List<Int>): this() {
+            columnWidths(columnWidths)
         }
 
         companion object {
@@ -34,7 +36,10 @@ class DivFormatter private constructor(): TextFormatter {
             fun of(): Builder = Builder()
 
             @JvmStatic
-            fun of(columnCount: Int): Builder = Builder(columnCount)
+            fun of(vararg columnWidths: Int): Builder = Builder(columnWidths.toList())
+
+            @JvmStatic
+            fun of(columnWidths: List<Int>): Builder = Builder(columnWidths)
         }
 
         /**
@@ -53,7 +58,7 @@ class DivFormatter private constructor(): TextFormatter {
         }
 
         /**
-         * @param widths The array of character widths for each column. This will append to any prior widths already specified.
+         * @param widths The array of character widths for each column. This will reset any prior widths already specified.
          * @return This [Builder]
          */
         fun columnWidths(vararg widths: Int): Builder {
@@ -61,12 +66,15 @@ class DivFormatter private constructor(): TextFormatter {
         }
 
         /**
-         * @param widths The [list of character widths][List] for each column. This will append to any prior widths already specified.
+         * @param widths The [list of character widths][List] for each column. This will reset any prior widths already specified.
          * @return This [Builder]
          */
         fun columnWidths(widths: List<Int>): Builder {
             checkFinalizedStatus()
-            buildable.columnWidths.addAll(widths)
+            buildable.run {
+                columnWidths.clear()
+                columnWidths.addAll(widths)
+            }
 
             return this
         }

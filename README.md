@@ -158,7 +158,6 @@ Let the pre-constructed row values be:
 val header = textRow(textCell(faker.getTitle(1)),
                      textCell(faker.getTitle(1)),
                      textCell(faker.getTitle(1)))
-val divider = textDivider(3)
 val row1 = textRow(textCell(faker.getWords(5),
                             faker.getWords(2)),
                    textCell(faker.getWords(2)),
@@ -184,7 +183,7 @@ Then, these values can be used in the following ways:
 ```kotlin
 textTable(row1, row2, row3) {
     header(header)
-    headerDivider(divider)
+    headerDivider('|', '-')
 }.println()
 ```
 
@@ -193,7 +192,7 @@ textTable(row1, row2, row3) {
 ```kotlin
 textTable(listOf(row1, row2, row3)) {
     header(header)
-    headerDivider(divider)
+    headerDivider('|', '-')
 }.println()
 ```
 
@@ -203,7 +202,7 @@ textTable(listOf(row1, row2, row3)) {
 textTable {
     body(row1, row2, row3)
     header(header)
-    headerDivider(divider)
+    headerDivider('|', '-')
 }.println()
 ```
 
@@ -215,7 +214,7 @@ textTable {
     body(row2)
     body(row3)
     header(header)
-    headerDivider(divider)
+    headerDivider('|', '-')
 }.println()
 ```
 

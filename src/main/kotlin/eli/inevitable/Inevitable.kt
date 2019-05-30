@@ -3,6 +3,7 @@ package eli.inevitable
 import eli.inevitable.formatters.CellFormatter
 import eli.inevitable.formatters.DivFormatter
 import eli.inevitable.formatters.RowFormatter
+import eli.inevitable.formatters.TableFormatter
 import kotlin.text.RegexOption.DOT_MATCHES_ALL
 
 /**
@@ -109,38 +110,49 @@ fun textRow(contents: List<CellFormatter>,
 
 /**
  * Constructs a divider of formatted text.
- * @param columnCount The total number of columns
+ * @param columnWidths The array of [column widths][Int] for the divider. (Must be positive)
  * @param init An optional initialization lambda used to configure the formatting for the divider.
  * @return A finalized [DivFormatter]
  */
-fun textDivider(columnCount: Int,
+fun textDivider(vararg columnWidths: Int,
                 init: (DivFormatter.Builder.() -> DivFormatter.Builder)? = null): DivFormatter {
-    val builder = DivFormatter.Builder(columnCount)
+    return textDivider(columnWidths.toList(), init)
+}
+
+/**
+ * Constructs a divider of formatted text.
+ * @param columnWidths A [list][List] of [column widths][Int] contained within the divider.
+ * @param init An optional initialization lambda used to configure the formatting for the divider.
+ * @return A finalized [DivFormatter]
+ */
+fun textDivider(columnWidths: List<Int>,
+                init: (DivFormatter.Builder.() -> DivFormatter.Builder)? = null): DivFormatter {
+    val builder = DivFormatter.Builder(columnWidths)
     return if(init == null) builder.finish() else builder.init().finish()
 }
 
-// /**
-//  * Constructs a table of rows of formatted text.
-//  * @param rows An array of [rows][RowFormatter] contained within the table.
-//  * @param init An optional initialization lambda used to configure the formatting for the table.
-//  * @return A finalized [TableFormatter]
-//  */
-// fun textTable(vararg rows: RowFormatter,
-//               init: (TableFormatter.Builder.() -> TableFormatter.Builder)? = null): TableFormatter {
-//     return textTable(rows.toList(), init)
-// }
-//
-// /**
-//  * Constructs a table of rows of formatted text.
-//  * @param rows A [list][List] of [rows][RowFormatter] contained within the table.
-//  * @param init An optional initialization lambda used to configure the formatting for the table.
-//  * @return A finalized [TableFormatter]
-//  */
-// fun textTable(rows: List<RowFormatter>,
-//               init: (TableFormatter.Builder.() -> TableFormatter.Builder)? = null): TableFormatter {
-//     val builder = TableFormatter.Builder(rows)
-//     return if(init == null) builder.finish() else builder.init().finish()
-// }
+/**
+ * Constructs a table of rows of formatted text.
+ * @param rows An array of [rows][RowFormatter] contained within the table.
+ * @param init An optional initialization lambda used to configure the formatting for the table.
+ * @return A finalized [TableFormatter]
+ */
+fun textTable(vararg rows: RowFormatter,
+              init: (TableFormatter.Builder.() -> TableFormatter.Builder)? = null): TableFormatter {
+    return textTable(rows.toList(), init)
+}
+
+/**
+ * Constructs a table of rows of formatted text.
+ * @param rows A [list][List] of [rows][RowFormatter] contained within the table.
+ * @param init An optional initialization lambda used to configure the formatting for the table.
+ * @return A finalized [TableFormatter]
+ */
+fun textTable(rows: List<RowFormatter>,
+              init: (TableFormatter.Builder.() -> TableFormatter.Builder)? = null): TableFormatter {
+    val builder = TableFormatter.Builder(rows)
+    return if(init == null) builder.finish() else builder.init().finish()
+}
 
 // /**
 //  * Constructs a bordered block of formatted text.
