@@ -31,19 +31,25 @@ This library was constructed using Kotlin, and as such used several idiomatic Ko
 
 *Note*: These examples can be composed with each other in arbitrary ways to render the structured text.
 
-### Multi-line Uniform Text
+### `CellFormatter`: Multi-line Uniform Text
 
 #### Kotlin API
 
-Let the pre-constructed line values be:
+<details>
+    <summary>Let the pre-constructed line values be:</summary>
+
 ```kotlin
 val line1 = faker.getWords(5)
 val line2 = faker.getWords(2)
 val line3 = faker.getWords(3)
 ```
 
-Then, these values can be used in the following ways:
+</details>
 
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
 ```kotlin
 textCell(line1, line2, line3) {
     alignment(CENTER)
@@ -51,9 +57,7 @@ textCell(line1, line2, line3) {
     paddingSpacer('*')
 }.println()
 ```
-
-*OR*
-
+- Initialize with a pre-constructed list
 ```kotlin
 textCell(listOf(line1, line2, line3)) {
     alignment(CENTER)
@@ -61,9 +65,7 @@ textCell(listOf(line1, line2, line3)) {
     paddingSpacer('*')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically
 ```kotlin
 textCell {
     lines(line1, line2, line3)
@@ -72,9 +74,7 @@ textCell {
     paddingSpacer('*')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically by appending line-by-line
 ```kotlin
 textCell {
     lines(line1)
@@ -86,6 +86,55 @@ textCell {
 }.println()
 ```
 
+</details>
+
+#### Java API
+
+<details>
+    <summary>Let the pre-constructed line values be:</summary>
+
+```java
+private String line1 = faker.getWords(5);
+private String line2 = faker.getWords(2);
+private String line3 = faker.getWords(3);
+```
+
+</details>
+
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
+```java
+CellFormatter.Builder.of(line1, line2, line3)
+        .alignment(Align.CENTER)
+        .padding(1, 1)
+        .paddingSpacer('*')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize with a pre-constructed list
+```java
+CellFormatter.Builder.of(Lists.newArrayList(line1, line2, line3))
+        .alignment(Align.CENTER)
+        .padding(1, 1)
+        .paddingSpacer('*')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically
+```java
+CellFormatter.Builder.of()
+        .lines(line1, line2, line3)
+        .alignment(Align.CENTER)
+        .padding(1, 1)
+        .paddingSpacer('*')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+
+</details>
+
 #### Sample Output
 ```
 ****************************************
@@ -95,11 +144,13 @@ textCell {
 ****************************************
 ```
 
-### Columnated-Row Text
+### `RowFormatter`: Columnated-Row Text
 
 #### Kotlin API
 
-Let the pre-constructed cell values be:
+<details>
+    <summary>Let the pre-constructed cell values be:</summary>
+
 ```kotlin
 val cell1 = textCell(faker.getWords(5),
                      faker.getWords(2))
@@ -109,33 +160,31 @@ val cell3 = textCell(faker.getWords(3),
                      faker.getWords(1))
 ```
 
-Then, these values can be used in the following ways:
+</details>
 
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
 ```kotlin
 textRow(cell1, cell2, cell3) {
     verticalDivider(':')
 }.println()
 ```
-
-*OR*
-
+- Initialize with a pre-constructed list
 ```kotlin
 textRow(listOf(cell1, cell2, cell3)) {
     verticalDivider(':')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically
 ```kotlin
 textRow {
     cells(cell1, cell2, cell3)
     verticalDivider(':')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically by appending line-by-line
 ```kotlin
 textRow {
     cells(cell1)
@@ -145,6 +194,68 @@ textRow {
 }.println()
 ```
 
+</details>
+
+#### Java API
+
+<details>
+    <summary>Let the pre-constructed cell values be:</summary>
+
+```java
+private CellFormatter cell1 = CellFormatter.Builder.of(
+        faker.getWords(5),
+        faker.getWords(2))
+        .finish();
+private CellFormatter cell2 = CellFormatter.Builder.of(
+        faker.getWords(2))
+        .finish();
+private CellFormatter cell3 = CellFormatter.Builder.of(
+        faker.getWords(3),
+        faker.getWords(2),
+        faker.getWords(1))
+        .finish();
+```
+
+</details>
+
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
+```java
+RowFormatter.Builder.of(cell1, cell2, cell3)
+        .verticalDivider(':')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize with a pre-constructed list
+```java
+RowFormatter.Builder.of(Lists.newArrayList(cell1, cell2, cell3))
+        .verticalDivider(':')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically
+```java
+RowFormatter.Builder.of()
+        .cells(cell1, cell2, cell3)
+        .verticalDivider(':')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically by appending line-by-line
+```java
+RowFormatter.Builder.of()
+        .cells(cell1)
+        .cells(cell2)
+        .cells(cell3)
+        .verticalDivider(':')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+
+</details>
+
 #### Sample Output
 ```
 porttitor eloquentiam fabellas sit mutat:laoreet justo:quem an ipsum
@@ -152,11 +263,13 @@ quem ultrices                           :             :veritus augue
                                         :             :salutatus    
 ```
 
-### Textual Table
+### `TableFormatter`: Textual Table
 
 #### Kotlin API
 
-Let the pre-constructed row values be:
+<details>
+    <summary>Let the pre-constructed row values be:</summary>
+
 ```kotlin
 val header = textRow(textCell(faker.getTitle(1)),
                      textCell(faker.getTitle(1)),
@@ -181,26 +294,26 @@ val row3 = textRow(textCell(faker.getWords(5),
                    textCell(faker.getWords(3)))
 ```
 
-Then, these values can be used in the following ways:
+</details>
 
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
 ```kotlin
 textTable(row1, row2, row3) {
     header(header)
     headerDivider('|', '-')
 }.println()
 ```
-
-*OR*
-
+- Initialize with a pre-constructed list
 ```kotlin
 textTable(listOf(row1, row2, row3)) {
     header(header)
     headerDivider('|', '-')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically
 ```kotlin
 textTable {
     body(row1, row2, row3)
@@ -208,9 +321,7 @@ textTable {
     headerDivider('|', '-')
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically by appending line-by-line
 ```kotlin
 textTable {
     body(row1)
@@ -220,6 +331,102 @@ textTable {
     headerDivider('|', '-')
 }.println()
 ```
+
+</details>
+
+#### Java API
+
+<details>
+    <summary>Let the pre-constructed row values be:</summary>
+
+```java
+private RowFormatter header =
+        RowFormatter.Builder.of(
+                CellFormatter.Builder.of(faker.getTitle(1)).finish(),
+                CellFormatter.Builder.of(faker.getTitle(1)).finish(),
+                CellFormatter.Builder.of(faker.getTitle(1)).finish())
+                .finish();
+private RowFormatter row1 =
+        RowFormatter.Builder.of(
+                CellFormatter.Builder.of(faker.getWords(5),
+                        faker.getWords(2))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(2))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(3),
+                        faker.getWords(2),
+                        faker.getWords(1))
+                        .finish())
+                .finish();
+private RowFormatter row2 =
+        RowFormatter.Builder.of(
+                CellFormatter.Builder.of(faker.getWords(5))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(2),
+                        faker.getWords(2))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(3),
+                        faker.getWords(2),
+                        faker.getWords(1))
+                        .finish())
+                .finish();
+private RowFormatter row3 =
+        RowFormatter.Builder.of(
+                CellFormatter.Builder.of(faker.getWords(5),
+                        faker.getWords(2),
+                        faker.getWords(1))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(2),
+                        faker.getWords(2))
+                        .finish(),
+                CellFormatter.Builder.of(faker.getWords(3))
+                        .finish())
+                .finish();
+```
+
+</details>
+
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
+```java
+TableFormatter.Builder.of(row1, row2, row3)
+        .header(header)
+        .headerDivider('|', '=')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize with a pre-constructed list
+```java
+TableFormatter.Builder.of(Lists.newArrayList(row1, row2, row3))
+        .header(header)
+        .headerDivider('|', '=')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically
+```java
+TableFormatter.Builder.of()
+        .body(row1, row2, row3)
+        .header(header)
+        .headerDivider('|', '=')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically by appending line-by-line
+```java
+TableFormatter.Builder.of()
+        .body(row1)
+        .body(row2)
+        .body(row3)
+        .header(header)
+        .headerDivider('|', '=')
+        .finish()
+        .println(System.out, Charsets.UTF_8);
+```
+
+</details>
 
 #### Sample Output
 
@@ -237,9 +444,13 @@ duo tractatos                             |simul alienum      |
 autem                                     |                   |                            
 ```
 
-### Blocked Text
+### `BlockFormatter`: Blocked Text
 
-Let the pre-constructed row values be:
+#### Kotlin API
+
+<details>
+    <summary>Let the pre-constructed element values be:</summary>
+
 ```kotlin
 val title = textCell(faker.getTitle(2)) {
     alignment(Align.CENTER)
@@ -259,26 +470,26 @@ val tableContent =
     }
 ```
 
-#### Kotlin API
+</details>
 
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
 ```kotlin
 textBlock(tableContent) {
     title(title)
     caption(caption)
 }.println()
 ```
-
-*OR*
-
+- Initialize with a pre-constructed list
 ```kotlin
 textBlock(listOf(tableContent)) {
     title(title)
     caption(caption)
 }.println()
 ```
-
-*OR*
-
+- Initialize dynamically
 ```kotlin
 textBlock {
     contents(tableContent)
@@ -286,6 +497,82 @@ textBlock {
     caption(caption)
 }.println()
 ```
+
+</details>
+
+#### Java API
+
+<details>
+    <summary>Let the pre-constructed element values be:</summary>
+
+```java
+private CellFormatter title = CellFormatter.Builder.of(faker.getTitle(2))
+        .alignment(Align.CENTER)
+        .finish();
+private CellFormatter caption = CellFormatter.Builder.of(faker.getWords(3))
+        .finish();
+private TableFormatter tableContent =
+        TableFormatter.Builder.of(
+                RowFormatter.Builder.of(
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish())
+                        .finish(),
+                RowFormatter.Builder.of(
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish())
+                        .finish())
+                .header(RowFormatter.Builder.of(
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish(),
+                        CellFormatter.Builder.of(faker.getWords(1))
+                                .finish())
+                        .finish())
+                .headerDivider('|', '=')
+                .finish();
+```
+
+</details>
+
+<details>
+    <summary>Then, these values can be used in the following ways:</summary>
+
+- Initialize with varargs
+```java
+        BlockFormatter.Builder.of(tableContent)
+                .title(title)
+                .caption(caption)
+                .finish()
+                .println(System.out, Charsets.UTF_8);
+```
+- Initialize with a pre-constructed list
+```java
+        BlockFormatter.Builder.of(Lists.newArrayList(tableContent))
+                .title(title)
+                .caption(caption)
+                .finish()
+                .println(System.out, Charsets.UTF_8);
+```
+- Initialize dynamically
+```java
+        BlockFormatter.Builder.of()
+                .contents(tableContent)
+                .title(title)
+                .caption(caption)
+                .finish()
+                .println(System.out, Charsets.UTF_8);
+```
+
+</details>
 
 #### Sample Output
 
