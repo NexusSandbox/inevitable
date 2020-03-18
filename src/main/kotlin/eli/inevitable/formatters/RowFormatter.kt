@@ -149,7 +149,7 @@ class RowFormatter private constructor(): TextFormatter {
         override fun build(): RowFormatter = buildable.apply {
             height = getTotalHeight()
             width = getTotalWidth()
-            logger.info("Row dimensions: ($width, $height)")
+            logger.atInfo().log("Row dimensions: ($width, $height)")
 
             // Resize all the cells of the row
             val cells = rawCells.mapIndexed { index, cell ->
@@ -159,7 +159,7 @@ class RowFormatter private constructor(): TextFormatter {
                     .height(height)
                     .finish()
             }
-            logger.info("Row Cell Count: ${cells.size}")
+            logger.atInfo().log("Row Cell Count: ${cells.size}")
 
             // Join row of all cells together on same lines
             for(i in 0 until getTotalHeight()) {

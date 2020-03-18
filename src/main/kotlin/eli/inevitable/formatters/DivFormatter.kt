@@ -128,13 +128,13 @@ class DivFormatter private constructor(): TextFormatter {
 
         override fun build(): DivFormatter = buildable.apply {
             width = getTotalWidth()
-            logger.info("Divider width: $width")
+            logger.atInfo().log("Divider width: $width")
 
             line = columnWidths.joinToString(verticalDividerToken.toString()) {
                 horizontalDividerToken.toString()
                     .repeat(it)
             }
-            logger.info("Divider Content: \"$line\"")
+            logger.atInfo().log("Divider Content: \"$line\"")
         }
     }
 

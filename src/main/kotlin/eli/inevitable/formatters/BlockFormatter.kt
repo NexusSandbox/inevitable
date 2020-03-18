@@ -242,7 +242,7 @@ class BlockFormatter private constructor(): TextFormatter {
                                                                                                         ?: 0) + (caption?.getHeight()
                                                                                                                  ?: 0))
                 ?: 0
-            logger.info("Block Content Dimensions: ($width, $height)")
+            logger.atInfo().log("Block Content Dimensions: ($width, $height)")
 
             val horizontalBorderLine =
                 horizontalBorderToken.toString()
@@ -259,11 +259,11 @@ class BlockFormatter private constructor(): TextFormatter {
                     .finish()
                     .getLines()
             } ?: listOf())
-            logger.info("Has Block Title: ${title != null}")
+            logger.atInfo().log("Has Block Title: ${title != null}")
 
             lines.add(horizontalBorderLine)
             repeat(verticalPaddingCount) { lines.add(verticalPaddingLine) }
-            logger.info("Block Padding Count: ($horizontalPaddingCount, $verticalPaddingCount)")
+            logger.atInfo().log("Block Padding Count: ($horizontalPaddingCount, $verticalPaddingCount)")
 
             val bodyWidth = width - 2 * (1 + horizontalPaddingCount)
             val body = block.flatMap {
@@ -276,14 +276,14 @@ class BlockFormatter private constructor(): TextFormatter {
                 .map { alignment.paddify(it, bodyWidth, fillingSpacerToken) }
                 .map { String.format(LINE_FORMAT, verticalBorderToken + horizontalPaddingText, it, horizontalPaddingText + verticalBorderToken) }
             lines.addAll(body)
-            logger.info("Block Content Element Count: ${block.size}")
+            logger.atInfo().log("Block Content Element Count: ${block.size}")
 
             val fillerHeight = contentHeight - body.size
             if(fillerHeight > 0) {
                 val verticalFillerLine =
                     String.format(LINE_FORMAT, verticalBorderToken + horizontalPaddingText, fillingSpacerToken.toString().repeat(bodyWidth), horizontalPaddingText, verticalBorderToken)
                 repeat(fillerHeight) { lines.add(verticalFillerLine) }
-                logger.info("Added filler lines to body: $fillerHeight")
+                logger.atInfo().log("Added filler lines to body: $fillerHeight")
             }
 
             repeat(verticalPaddingCount) { lines.add(verticalPaddingLine) }
@@ -294,7 +294,7 @@ class BlockFormatter private constructor(): TextFormatter {
                     .finish()
                     .getLines()
             } ?: listOf())
-            logger.info("Has Block Caption: ${caption != null}")
+            logger.atInfo().log("Has Block Caption: ${caption != null}")
 
             this
         }

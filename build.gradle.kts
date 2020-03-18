@@ -6,13 +6,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kotlinVersion =
     plugins.getPlugin(KotlinPluginWrapper::class.java)
         .kotlinPluginVersion
-val junitPlatformVersion = "1.4.1"
-val junitJupiterVersion = "5.4.1"
-val floggerVersion = "0.4"
-val log4jVersion = "2.11.2"
+val junitPlatformVersion = "1.6.0"
+val junitJupiterVersion = "5.6.0"
+val floggerVersion = "0.5"
+//val log4jVersion = "2.13.1"
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.70"
     `java-library`
 }
 
@@ -29,12 +29,13 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
-    implementation("com.google.guava:guava:27.1-jre")
-    implementation("com.pinterest:ktlint:0.32.0")
-    // implementation("com.google.flogger:flogger:$floggerVersion")  -- Can' t use until log4j2 is supported
-    // implementation("com.google.flogger:flogger-system-backend:$floggerVersion")  -- Can 't use until log4j2 is supported
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("com.google.guava:guava:28.2-jre")
+    implementation("com.pinterest:ktlint:0.36.0")
+    implementation("com.google.flogger:flogger:$floggerVersion")
+    implementation("com.google.flogger:flogger-system-backend:$floggerVersion")
+    implementation("com.google.flogger:flogger-log4j2-backend:$floggerVersion")
+//    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+//    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
 
     testImplementation(kotlin("test", kotlinVersion))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
@@ -80,7 +81,9 @@ tasks {
     }
 
     withType<Test> {
+        systemProperty("flogger.backend_factory", "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance")
         testLogging {
+            showStackTraces = true
             exceptionFormat = TestExceptionFormat.FULL
             events("FAILED", "SKIPPED", "PASSED")
             showStandardStreams = true
@@ -104,11 +107,11 @@ tasks {
             override fun afterSuite(descriptor: TestDescriptor?, result: TestResult?) {
                 println("Completed tests for: $descriptor")
                 if(result != null) {
-                    println("""Test results:    ${result.resultType}
-                                |   Test Count: ${result.testCount}
-                                |   Succeeded:  ${result.successfulTestCount}
-                                |   Failed:     ${result.failedTestCount}
-                                |   Skipped:    ${result.skippedTestCount}
+                    println("""Test results: ${result.resultType}
+                                |  Test Count: ${result.testCount}
+                                |  Succeeded:  ${result.successfulTestCount}
+                                |  Failed:     ${result.failedTestCount}
+                                |  Skipped:    ${result.skippedTestCount}
                             """.trimMargin())
                 }
             }

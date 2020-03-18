@@ -1,8 +1,7 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.LINE_BREAK
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.io.OutputStream
 import java.nio.charset.Charset
 
@@ -37,7 +36,7 @@ interface TextFormatter {
     }
 
     companion object {
-        val logger: Logger = LogManager.getLogger(TextFormatter::class.java.name)
+        val logger: FluentLogger = FluentLogger.forEnclosingClass()
         const val LINE_FORMAT = "%s%s%s"
     }
 }
