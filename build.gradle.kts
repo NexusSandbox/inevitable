@@ -4,12 +4,11 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlinVersion =
-    plugins.getPlugin(KotlinPluginWrapper::class.java)
-        .kotlinPluginVersion
+        plugins.getPlugin(KotlinPluginWrapper::class.java)
+                .kotlinPluginVersion
 val junitPlatformVersion = "1.6.0"
 val junitJupiterVersion = "5.6.0"
 val floggerVersion = "0.5"
-//val log4jVersion = "2.13.1"
 
 plugins {
     kotlin("jvm") version "1.3.70"
@@ -17,7 +16,7 @@ plugins {
 }
 
 group = "eli.inevitable"
-version = "1.0.0-alpha-1"
+version = "1.0.0-alpha-2"
 
 repositories {
     mavenCentral()
@@ -34,8 +33,6 @@ dependencies {
     implementation("com.google.flogger:flogger:$floggerVersion")
     implementation("com.google.flogger:flogger-system-backend:$floggerVersion")
     implementation("com.google.flogger:flogger-log4j2-backend:$floggerVersion")
-//    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-//    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
 
     testImplementation(kotlin("test", kotlinVersion))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
@@ -43,9 +40,9 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-runner:$junitPlatformVersion")
     testImplementation("com.thedeanda:lorem:2.1")
 
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-    testRuntime("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
-    testRuntime("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
 }
 
 java {
@@ -91,7 +88,7 @@ tasks {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
-        addTestListener(object: TestListener {
+        addTestListener(object : TestListener {
             override fun beforeSuite(descriptor: TestDescriptor?) {
                 println("Initiating tests for: $descriptor")
             }
@@ -106,7 +103,7 @@ tasks {
 
             override fun afterSuite(descriptor: TestDescriptor?, result: TestResult?) {
                 println("Completed tests for: $descriptor")
-                if(result != null) {
+                if (result != null) {
                     println("""Test results: ${result.resultType}
                                 |  Test Count: ${result.testCount}
                                 |  Succeeded:  ${result.successfulTestCount}
