@@ -1,15 +1,15 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.isPrintable
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a border-less row of formatted columized text.
  * This row may contain multiple lines of text.
  */
 class RowFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<RowFormatter> {
 

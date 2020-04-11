@@ -1,18 +1,18 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.enumerations.Align
 import eli.inevitable.formatters.TextFormatter.Companion.LINE_FORMAT
 import eli.inevitable.isPrintable
 import eli.inevitable.maxWidth
 import eli.inevitable.sanitize
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a block of formatted text. This block may optionally be padded with an arbitrary number of empty rows of text.
  */
 class CellFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<CellFormatter> {
 

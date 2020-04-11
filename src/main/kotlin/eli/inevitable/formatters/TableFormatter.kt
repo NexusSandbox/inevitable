@@ -1,16 +1,15 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.maxOf
 import eli.inevitable.maxWidth
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 
 /**
  * A generalized formatter that constructs a table of formatted text. This table will align each of the columns to the maximum character width, and each of the rows to the maximum line count for that row.
  */
 class TableFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<TableFormatter> {
 
