@@ -6,17 +6,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kotlinVersion =
         plugins.getPlugin(KotlinPluginWrapper::class.java)
                 .kotlinPluginVersion
-val junitPlatformVersion = "1.6.0"
-val junitJupiterVersion = "5.6.0"
-val floggerVersion = "0.5"
+val junitPlatformVersion = "1.6.1"
+val junitJupiterVersion = "5.6.1"
+val floggerVersion = "0.5.1"
 
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.3.71"
     `java-library`
 }
 
 group = "eli.inevitable"
-version = "1.0.0-alpha-2"
+version = "1.0.0-alpha-3"
 
 repositories {
     mavenCentral()
@@ -104,12 +104,14 @@ tasks {
             override fun afterSuite(descriptor: TestDescriptor?, result: TestResult?) {
                 println("Completed tests for: $descriptor")
                 if (result != null) {
-                    println("""Test results: ${result.resultType}
+                    println(
+                        """Test results: ${result.resultType}
                                 |  Test Count: ${result.testCount}
                                 |  Succeeded:  ${result.successfulTestCount}
                                 |  Failed:     ${result.failedTestCount}
                                 |  Skipped:    ${result.skippedTestCount}
-                            """.trimMargin())
+                            """.trimMargin()
+                    )
                 }
             }
         })

@@ -9,6 +9,8 @@ import java.nio.charset.Charset
  * Generalized interface for constructing structured text.
  */
 interface TextFormatter {
+    val logger: FluentLogger
+
     /**
      * @return The total number of lines for the [element][TextFormatter] that includes total padding.
      */
@@ -36,7 +38,6 @@ interface TextFormatter {
     }
 
     companion object {
-        val logger: FluentLogger = FluentLogger.forEnclosingClass()
         const val LINE_FORMAT = "%s%s%s"
     }
 }

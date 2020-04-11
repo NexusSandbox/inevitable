@@ -11,7 +11,7 @@ import kotlin.text.RegexOption.DOT_MATCHES_ALL
 /**
  * System agnostic character sequence for generating a line break.
  */
-val LINE_BREAK = System.lineSeparator()
+val LINE_BREAK: String = System.lineSeparator()
 /**
  * Regex pattern for identifying and breaking up new lines.
  */

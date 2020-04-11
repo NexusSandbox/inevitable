@@ -9,6 +9,7 @@ import kotlin.text.RegexOption.DOT_MATCHES_ALL
  * @see <a href="https://xxyxyz.org/line-breaking/">Line Breaking Algorithms</a>
  */
 class LineWrapper internal constructor(private val line: String, private val margin: Int) {
+    private val logger: FluentLogger = FluentLogger.forEnclosingClass()!!
 
     private val fracturePoints =
         fracturePointPattern.findAll(line)
@@ -26,7 +27,6 @@ class LineWrapper internal constructor(private val line: String, private val mar
     }
 
     companion object {
-        private val logger: FluentLogger = FluentLogger.forEnclosingClass()
         private val fracturePointPattern = Regex("""(^\s*|\s+)""", DOT_MATCHES_ALL)
     }
 }

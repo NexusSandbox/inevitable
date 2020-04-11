@@ -2,14 +2,15 @@ package eli.inevitable.formatters
 
 import eli.inevitable.enumerations.Align
 import eli.inevitable.formatters.TextFormatter.Companion.LINE_FORMAT
-import eli.inevitable.formatters.TextFormatter.Companion.logger
 import eli.inevitable.maxOf
 import eli.inevitable.templates.AbstractBuilderTemplate
+import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a block of formatted text. This block may be filled with an arbitrary number of [contents][TextFormatter], may be padded and/or framed with a border, and given a [title][CellFormatter] and/or a [caption][CellFormatter].
  */
 class BlockFormatter private constructor(): TextFormatter {
+    override val logger = LogManager.getLogger(javaClass)!!
 
     class Builder: AbstractBuilderTemplate<BlockFormatter> {
 
