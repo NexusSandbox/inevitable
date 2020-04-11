@@ -6,7 +6,7 @@ enum class Align(private val padder: Function3<String, Int, Char, String>) {
      *
      * No whitespace padding is applied.
      */
-    NONE({ line: String, margin: Int, token: Char -> line }),
+    NONE({ line: String, _: Int, _: Char -> line }),
     /**
      * Text originates from the LEFT;
      *
