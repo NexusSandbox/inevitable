@@ -6,18 +6,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kotlinVersion =
     plugins.getPlugin(KotlinPluginWrapper::class.java)
         .kotlinPluginVersion
-val junitPlatformVersion = "1.4.1"
-val junitJupiterVersion = "5.4.1"
-val floggerVersion = "0.4"
-val log4jVersion = "2.11.2"
+val junitPlatformVersion = "1.6.1"
+val junitJupiterVersion = "5.6.1"
+val log4jVersion = "2.13.1"
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.71"
     `java-library`
 }
 
 group = "eli.inevitable"
-version = "1.0.0-alpha-1"
+version = "1.0.0-alpha-2"
 
 repositories {
     mavenCentral()
@@ -29,10 +28,8 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
     implementation(kotlin("reflect", kotlinVersion))
-    implementation("com.google.guava:guava:27.1-jre")
-    implementation("com.pinterest:ktlint:0.32.0")
-    // implementation("com.google.flogger:flogger:$floggerVersion")  -- Can' t use until log4j2 is supported
-    // implementation("com.google.flogger:flogger-system-backend:$floggerVersion")  -- Can 't use until log4j2 is supported
+    implementation("com.google.guava:guava:28.2-jre")
+    implementation("com.pinterest:ktlint:0.36.0")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
 
@@ -42,9 +39,9 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-runner:$junitPlatformVersion")
     testImplementation("com.thedeanda:lorem:2.1")
 
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-    testRuntime("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
-    testRuntime("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
 }
 
 java {
@@ -88,7 +85,7 @@ tasks {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
-        addTestListener(object: TestListener {
+        addTestListener(object : TestListener {
             override fun beforeSuite(descriptor: TestDescriptor?) {
                 println("Initiating tests for: $descriptor")
             }
@@ -103,13 +100,15 @@ tasks {
 
             override fun afterSuite(descriptor: TestDescriptor?, result: TestResult?) {
                 println("Completed tests for: $descriptor")
-                if(result != null) {
-                    println("""Test results:    ${result.resultType}
-                                |   Test Count: ${result.testCount}
-                                |   Succeeded:  ${result.successfulTestCount}
-                                |   Failed:     ${result.failedTestCount}
-                                |   Skipped:    ${result.skippedTestCount}
-                            """.trimMargin())
+                if (result != null) {
+                    println(
+                        """Test results: ${result.resultType}
+                                |  Test Count: ${result.testCount}
+                                |  Succeeded:  ${result.successfulTestCount}
+                                |  Failed:     ${result.failedTestCount}
+                                |  Skipped:    ${result.skippedTestCount}
+                            """.trimMargin()
+                    )
                 }
             }
         })
