@@ -1,18 +1,18 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.enumerations.Align
 import eli.inevitable.formatters.TextFormatter.Companion.LINE_FORMAT
 import eli.inevitable.isPrintable
 import eli.inevitable.maxWidth
 import eli.inevitable.sanitize
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a block of formatted text. This block may optionally be padded with an arbitrary number of empty rows of text.
  */
 class CellFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<CellFormatter> {
 
@@ -209,7 +209,7 @@ class CellFormatter private constructor(): TextFormatter {
         override fun build(): CellFormatter = buildable.apply {
             height = getTotalHeight()
             width = getTotalWidth()
-            logger.info("Cell dimensions: ($width, $height)")
+            logger.atInfo().log("Cell dimensions: ($width, $height)")
 
             // Create padding for vertical pad lines
             val linePadding =
@@ -223,13 +223,13 @@ class CellFormatter private constructor(): TextFormatter {
 
             // Create vertical padding
             repeat(verticalPaddingCount) { textLines.add(linePadding) }
-            logger.info("Cell Padding Count: ($horizontalPaddingCount, $verticalPaddingCount)")
+            logger.atInfo().log("Cell Padding Count: ($horizontalPaddingCount, $verticalPaddingCount)")
 
             // Align content with filler
             textLines.addAll(alignment.paddify(rawLines, getTotalWidth() - 2 * buildable.horizontalPaddingCount, fillingSpacerToken).map {
                 String.format(LINE_FORMAT, horizontalPaddingText, it, horizontalPaddingText)
             }.also {
-                logger.info("Cell Content: $it")
+                logger.atInfo().log("Cell Content: $it")
             })
 
             // Fill in any vertical spacing between content and padding
@@ -237,7 +237,7 @@ class CellFormatter private constructor(): TextFormatter {
             val lineFiller =
                 String.format(LINE_FORMAT, horizontalPaddingText, fillingSpacerToken.toString().repeat(getTotalWidth() - 2 * horizontalPaddingCount), horizontalPaddingText)
             repeat(lineFillerCount) { textLines.add(lineFiller) }
-            logger.info("Cell Filler Count: $lineFillerCount")
+            logger.atInfo().log("Cell Filler Count: $lineFillerCount")
 
             // Create padding for vertical pad lines
             repeat(verticalPaddingCount) { textLines.add(linePadding) }

@@ -4,11 +4,11 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlinVersion =
-    plugins.getPlugin(KotlinPluginWrapper::class.java)
-        .kotlinPluginVersion
+        plugins.getPlugin(KotlinPluginWrapper::class.java)
+                .kotlinPluginVersion
 val junitPlatformVersion = "1.6.1"
 val junitJupiterVersion = "5.6.1"
-val log4jVersion = "2.13.1"
+val floggerVersion = "0.5.1"
 
 plugins {
     kotlin("jvm") version "1.3.71"
@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "eli.inevitable"
-version = "1.0.0-alpha-2"
+version = "1.0.0-alpha-3"
 
 repositories {
     mavenCentral()
@@ -30,8 +30,9 @@ dependencies {
     implementation(kotlin("reflect", kotlinVersion))
     implementation("com.google.guava:guava:28.2-jre")
     implementation("com.pinterest:ktlint:0.36.0")
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("com.google.flogger:flogger:$floggerVersion")
+    implementation("com.google.flogger:flogger-system-backend:$floggerVersion")
+    implementation("com.google.flogger:flogger-log4j2-backend:$floggerVersion")
 
     testImplementation(kotlin("test", kotlinVersion))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
@@ -77,7 +78,9 @@ tasks {
     }
 
     withType<Test> {
+        systemProperty("flogger.backend_factory", "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance")
         testLogging {
+            showStackTraces = true
             exceptionFormat = TestExceptionFormat.FULL
             events("FAILED", "SKIPPED", "PASSED")
             showStandardStreams = true

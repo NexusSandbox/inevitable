@@ -1,15 +1,15 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.isPrintable
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a border-less row of formatted columized text.
  * This row may contain multiple lines of text.
  */
 class RowFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<RowFormatter> {
 
@@ -150,7 +150,7 @@ class RowFormatter private constructor(): TextFormatter {
         override fun build(): RowFormatter = buildable.apply {
             height = getTotalHeight()
             width = getTotalWidth()
-            logger.info("Row dimensions: ($width, $height)")
+            logger.atInfo().log("Row dimensions: ($width, $height)")
 
             // Resize all the cells of the row
             val cells = rawCells.mapIndexed { index, cell ->
@@ -160,7 +160,7 @@ class RowFormatter private constructor(): TextFormatter {
                     .height(height)
                     .finish()
             }
-            logger.info("Row Cell Count: ${cells.size}")
+            logger.atInfo().log("Row Cell Count: ${cells.size}")
 
             // Join row of all cells together on same lines
             for(i in 0 until getTotalHeight()) {

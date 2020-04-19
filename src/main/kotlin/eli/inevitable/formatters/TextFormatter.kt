@@ -1,8 +1,7 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.LINE_BREAK
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.io.OutputStream
 import java.nio.charset.Charset
 
@@ -10,7 +9,7 @@ import java.nio.charset.Charset
  * Generalized interface for constructing structured text.
  */
 interface TextFormatter {
-    val logger: Logger
+    val logger: FluentLogger
 
     /**
      * @return The total number of lines for the [element][TextFormatter] that includes total padding.

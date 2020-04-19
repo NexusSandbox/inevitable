@@ -1,15 +1,15 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.isPrintable
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
 
 /**
  * A generalized formatter that constructs a border-less divider row of formatted text. This row
  * will only contain a single line of text.
  */
 class DivFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<DivFormatter> {
         constructor(formatter: DivFormatter): super(DivFormatter()) {
@@ -129,13 +129,13 @@ class DivFormatter private constructor(): TextFormatter {
 
         override fun build(): DivFormatter = buildable.apply {
             width = getTotalWidth()
-            logger.info("Divider width: $width")
+            logger.atInfo().log("Divider width: $width")
 
             line = columnWidths.joinToString(verticalDividerToken.toString()) {
                 horizontalDividerToken.toString()
                     .repeat(it)
             }
-            logger.info("Divider Content: \"$line\"")
+            logger.atInfo().log("Divider Content: \"$line\"")
         }
     }
 

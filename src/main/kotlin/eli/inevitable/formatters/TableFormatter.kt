@@ -1,16 +1,15 @@
 package eli.inevitable.formatters
 
+import com.google.common.flogger.FluentLogger
 import eli.inevitable.maxOf
 import eli.inevitable.maxWidth
 import eli.inevitable.templates.AbstractBuilderTemplate
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 
 /**
  * A generalized formatter that constructs a table of formatted text. This table will align each of the columns to the maximum character width, and each of the rows to the maximum line count for that row.
  */
 class TableFormatter private constructor(): TextFormatter {
-    override val logger = LogManager.getLogger(javaClass)!!
+    override val logger = FluentLogger.forEnclosingClass()!!
 
     class Builder: AbstractBuilderTemplate<TableFormatter> {
 
@@ -199,7 +198,7 @@ class TableFormatter private constructor(): TextFormatter {
                                 ?: 0, header?.getColumnWidths()?.get(index)
                                       ?: 0, footer?.getColumnWidths()?.get(index) ?: 0) ?: 0
             })
-            logger.info("Table Column Widths: $columnWidths")
+            logger.atInfo().log("Table Column Widths: $columnWidths")
 
             lines.addAll(header?.let {
                 RowFormatter.Builder(it)
@@ -207,10 +206,10 @@ class TableFormatter private constructor(): TextFormatter {
                     .finish()
                     .getLines()
             } ?: listOf())
-            logger.info("Has Table Header: ${header != null}")
+            logger.atInfo().log("Has Table Header: ${header != null}")
 
             lines.addAll(if(headerHorizontalDividerToken != null) DivFormatter.Builder(columnWidths).horizontalDivider(headerHorizontalDividerToken as Char).verticalDivider(headerVerticalDividerToken as Char).finish().getLines() else listOf())
-            logger.info("Has Table Header Divider: ${headerHorizontalDividerToken != null}")
+            logger.atInfo().log("Has Table Header Divider: ${headerHorizontalDividerToken != null}")
 
             lines.addAll(bodyContents.flatMap {
                 RowFormatter.Builder(it)
@@ -218,10 +217,10 @@ class TableFormatter private constructor(): TextFormatter {
                     .finish()
                     .getLines()
             })
-            logger.info("Table Row Count: ${bodyContents.size}")
+            logger.atInfo().log("Table Row Count: ${bodyContents.size}")
 
             lines.addAll(if(footerHorizontalDividerToken != null) DivFormatter.Builder(columnWidths).horizontalDivider(footerHorizontalDividerToken as Char).verticalDivider(footerVerticalDividerToken as Char).finish().getLines() else listOf())
-            logger.info("Has Table Footer Divider: ${footerHorizontalDividerToken != null}")
+            logger.atInfo().log("Has Table Footer Divider: ${footerHorizontalDividerToken != null}")
 
             lines.addAll(footer?.let {
                 RowFormatter.Builder(it)
@@ -229,11 +228,11 @@ class TableFormatter private constructor(): TextFormatter {
                     .finish()
                     .getLines()
             } ?: listOf())
-            logger.info("Has Table Footer: ${footer != null}")
+            logger.atInfo().log("Has Table Footer: ${footer != null}")
 
             width = lines.maxWidth()
             height = lines.size
-            logger.info("Table Dimensions: ($width, $height)")
+            logger.atInfo().log("Table Dimensions: ($width, $height)")
 
             this
         }
